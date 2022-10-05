@@ -15,7 +15,7 @@ import { CurrentMarkerContext } from "../lib/context";
 
 export default function SocialProfileSimple({ data }) {
   const { currentMarker } = useContext(CurrentMarkerContext);
-  console.log(currentMarker);
+
   const handleMap = () => {
     document.getElementById("map").scrollIntoView({ behavior: "smooth" });
   };
@@ -37,7 +37,7 @@ export default function SocialProfileSimple({ data }) {
         rounded={"lg"}
         p={6}
         textAlign={"center"}
-        border={handleCurrent(data.truckName) ? "2px" : null}
+        border={handleCurrent(data?.truckName) ? "2px" : null}
       >
         <Avatar
           size={"xl"}
@@ -58,10 +58,10 @@ export default function SocialProfileSimple({ data }) {
             bottom: 0,
             right: 3,
           }}
-          id={data.truckName}
+          id={data?.truckName}
         />
         <Heading fontSize={"2xl"} fontFamily={"body"}>
-          {data.truckName}
+          {data?.truckName}
         </Heading>
         <Text size={"sm"} color="gray.400">
           Last Update: 10:00 8/1/22 🤙
