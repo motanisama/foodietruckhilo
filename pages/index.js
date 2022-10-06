@@ -5,6 +5,7 @@ import {
   Button,
   useColorModeValue,
   Flex,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -22,6 +23,8 @@ import { CurrentMarkerContext, LocationContext } from "../lib/context";
 export default function Home() {
   const { locations } = useContext(LocationContext);
   const { setCurrentMarker } = useContext(CurrentMarkerContext);
+
+  const [isMobile] = useMediaQuery("(max-width: 600px)");
 
   return (
     <Box
@@ -44,13 +47,14 @@ export default function Home() {
           mb={20}
           id="map"
         >
-          <Map locations={locations} />
+          <Map locations={locations} isMobile={isMobile} />
         </Box>
 
-        <Box w={"100%"} h={"75vh"}>
+        <Box>
           <Heading id="feature" mb={8}>
             Featured Food trucks in Hilo
           </Heading>
+
           <TruckGrid />
         </Box>
         <CallToActionWithAnnotation />

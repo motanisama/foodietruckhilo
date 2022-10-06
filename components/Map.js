@@ -11,6 +11,7 @@ import { CurrentMarkerContext, LocationContext } from "../lib/context";
 
 import mapStyles from "./mapStyles";
 import { useFoodtruckData } from "../lib/hooks";
+import { useMediaQuery } from "@chakra-ui/react";
 
 const mapContainerStyle = {
   width: "100%",
@@ -32,7 +33,7 @@ const options = {
   styles: mapStyles,
 };
 
-export default function Map({ locations, admin, foodTruckData }) {
+export default function Map({ locations, admin, foodTruckData, isMobile }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
   });
@@ -45,7 +46,7 @@ export default function Map({ locations, admin, foodTruckData }) {
   //maintain state without causing re-render
   const mapRef = useRef();
 
-  const { setCurrentMarker } = useContext(CurrentMarkerContext);
+  const { setCurrentMarker, currentMarker } = useContext(CurrentMarkerContext);
 
   //
   const onMapLoad = useCallback((map) => {
@@ -75,8 +76,8 @@ export default function Map({ locations, admin, foodTruckData }) {
     <div className="map">
       <GoogleMap
         mapContainerStyle={admin ? adminContainerStyle : mapContainerStyle}
-        zoom={15}
-        center={center}
+        zoom={currentMarker ? 18 : 15}
+        center={currentMarker ? currentMarker.geo : center}
         options={options}
         onLoad={onMapLoad}
       >
@@ -87,10 +88,18 @@ export default function Map({ locations, admin, foodTruckData }) {
               key={i}
               position={{ lat: marker.geo?.lat, lng: marker.geo?.lng }}
               onClick={() => {
-                console.log(marker.truckName);
-                document
-                  .getElementById("feature")
-                  .scrollIntoView({ behavior: "smooth" });
+                console.log(marker);
+
+                if (isMobile) {
+                  document
+                    .getElementById(marker.truckName)
+                    .scrollIntoView({ behavior: "smooth" });
+                } else {
+                  document
+                    .getElementById("feature")
+                    .scrollIntoView({ behavior: "smooth" });
+                }
+
                 setCurrentMarker(marker);
               }}
             />

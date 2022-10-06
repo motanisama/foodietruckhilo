@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContext } from "react";
 import { LocationContext } from "../lib/context";
 import SocialProfileSimple from "./Card";
@@ -8,12 +8,10 @@ export function TruckGrid() {
   const { locations } = useContext(LocationContext);
 
   return (
-    <Grid templateColumns="repeat(3, 4fr)" gap={4}>
+    <SimpleGrid columns={[1, null, 3]} spacing={4}>
       {locations?.map((data) => (
-        <GridItem w="100%">
-          <SocialProfileSimple data={data} />
-        </GridItem>
+        <SocialProfileSimple data={data} key={data.truckName} />
       ))}
-    </Grid>
+    </SimpleGrid>
   );
 }

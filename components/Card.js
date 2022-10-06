@@ -14,10 +14,11 @@ import { useContext } from "react";
 import { CurrentMarkerContext } from "../lib/context";
 
 export default function SocialProfileSimple({ data }) {
-  const { currentMarker } = useContext(CurrentMarkerContext);
+  const { currentMarker, setCurrentMarker } = useContext(CurrentMarkerContext);
 
   const handleMap = () => {
     document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+    setCurrentMarker(data);
   };
 
   const handleCurrent = (id) => {
