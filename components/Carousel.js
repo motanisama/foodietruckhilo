@@ -32,7 +32,7 @@ export function Carousel({ children }) {
   );
 }
 
-export function TruckCard({ data }) {
+export function TruckCard({ data, key }) {
   console.log(data);
   const { currentMarker, setCurrentMarker } = useContext(CurrentMarkerContext);
   const router = useRouter();
@@ -72,6 +72,7 @@ export function TruckCard({ data }) {
       transition={"0.2s"}
       rounded={"2xl"}
       boxShadow={"xl"}
+      key={key}
     >
       <Heading marginBottom={"4"}>
         {data &&

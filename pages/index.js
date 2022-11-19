@@ -126,8 +126,8 @@ export default function Home() {
           </Text>
         </Heading>
         <Carousel>
-          {locations?.map((data) => (
-            <TruckCard data={data} key={data.truckName} />
+          {locations?.map((data, i) => (
+            <TruckCard data={data} key={data.truckName + i} />
           ))}
         </Carousel>
       </DashboardShell>

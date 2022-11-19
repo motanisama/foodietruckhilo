@@ -36,7 +36,7 @@ export default function Hero() {
   };
 
   return (
-    <Container maxW={"2000px"} minH={"90vh"}>
+    <Container maxW={"1600px"} minH={"80vh"}>
       <Stack
         align={"center"}
         spacing={{ base: 8, md: 10 }}
