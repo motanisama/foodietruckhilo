@@ -24,6 +24,7 @@ export function Carousel({ children }) {
       padding={"3rem"}
       overflowX={"scroll"}
       alignItems={"center"}
+      w={"full"}
       justifyContent={"center"}
       direction={{ base: "row", sm: "column" }}
     >

@@ -125,12 +125,12 @@ export default function Home() {
             Featured Food Trucks
           </Text>
         </Heading>
-        <Carousel>
-          {locations?.map((data, i) => (
-            <TruckCard data={data} key={data.truckName + i} />
-          ))}
-        </Carousel>
       </DashboardShell>
+      <Carousel>
+        {locations?.map((data, i) => (
+          <TruckCard data={data} key={data.truckName + i} />
+        ))}
+      </Carousel>
       <SmallCentered />
     </Box>
   );
