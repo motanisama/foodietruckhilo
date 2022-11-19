@@ -1,56 +1,72 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Spacer } from "@chakra-ui/react";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
+import AdminCard from "../../components/AdminCard";
 import SocialProfileSimple from "../../components/Card";
 import DashboardShell from "../../components/DashboardShell";
 import ProfileBody from "../../components/ProfileBody";
+import ProfileDetails from "../../components/ProfileDetails";
+import Update from "../../components/Updates";
 import UpdateSection from "../../components/UpdateSection";
+import {
+  useFoodtruckData,
+  useSingleFoodTruck,
+  useSingleSchedule,
+  useUpdateData,
+} from "../../lib/hooks";
 
 function index() {
+  const { foodTruckData } = useSingleFoodTruck("AMIJw0xhpasiTMcwD1D9");
+  const { scheduleData } = useSingleSchedule("wUgRua9uhFhSlw1Vtxgb");
+
   return (
-    <DashboardShell full={true}>
-      <Flex direction="row">
-        <Box
-          m={4}
-          rounded={"2xl"}
-          boxShadow={"2xl"}
-          width={"full"}
-          overflow={"hidden"}
-        >
-          <SocialProfileSimple />
-        </Box>
-        <Box
-          m={4}
-          rounded={"2xl"}
-          boxShadow={"2xl"}
-          width={"full"}
-          overflow={"hidden"}
-        >
-          <SocialProfileSimple />
-        </Box>
-        <Box
-          m={4}
-          rounded={"2xl"}
-          boxShadow={"2xl"}
-          width={"full"}
-          overflow={"hidden"}
-        >
-          <SocialProfileSimple />
-        </Box>
-      </Flex>
+    <DashboardShell>
       <Box
+        as="div"
+        width={"full"}
+        mb={4}
         w={"full"}
-        direction="column"
-        backgroundColor={"white"}
+        flexDirection="column"
         rounded={"2xl"}
         boxShadow={"2xl"}
-        width={"full"}
         overflow={"hidden"}
-        mb={4}
+        display={"flex"}
+        maxW={"1600px"}
       >
-        <ProfileBody />
+        <Box
+          w={"100%"}
+          h={"50%"}
+          backgroundImage={"/1.jpg"}
+          backgroundPosition={"center"}
+        ></Box>
+        <Box
+          flex={1}
+          w={"full"}
+          direction="column"
+          backgroundColor={"white"}
+          width={"full"}
+          h={"100%"}
+          overflow={"hidden"}
+        >
+          <ProfileBody
+            foodTruckData={foodTruckData}
+            scheduleData={scheduleData}
+          />
+        </Box>
       </Box>
+      <Flex flexDir={"row"} w={"full"} maxW={"1600px"}>
+        <Box flex={1} mr={4}>
+          <ProfileDetails
+            foodTruckData={foodTruckData}
+            scheduleData={scheduleData}
+          />
+        </Box>
 
-      <UpdateSection />
+        <Box flex={2} h={"100vh"}>
+          <UpdateSection title={`Today's update's`}></UpdateSection>
+        </Box>
+      </Flex>
     </DashboardShell>
   );
 }

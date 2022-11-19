@@ -7,21 +7,23 @@ import {
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 import { formatRelative, set } from "date-fns";
-import { CurrentMarkerContext, LocationContext } from "../lib/context";
+import {
+  CurrentLocationContext,
+  CurrentMarkerContext,
+  LocationContext,
+} from "../lib/context";
 
 import mapStyles from "./mapStyles";
 import { useFoodtruckData } from "../lib/hooks";
-import { useMediaQuery } from "@chakra-ui/react";
+import {
+  Button,
+  Image,
+  Spinner,
+  useDisclosure,
+  useMediaQuery,
+} from "@chakra-ui/react";
+import TruckModal from "./TruckModal";
 
-const mapContainerStyle = {
-  width: "100%",
-  height: "75vh",
-};
-
-const adminContainerStyle = {
-  width: "100%",
-  height: "50vh",
-};
 const center = {
   lat: 19.714312,
   lng: -155.077456,
@@ -33,7 +35,13 @@ const options = {
   styles: mapStyles,
 };
 
-export default function Map({ locations, admin, foodTruckData, isMobile }) {
+export default function Map({
+  locations,
+  admin,
+  foodTruckData,
+  isMobile,
+  mapContainerStyle,
+}) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
   });
@@ -47,10 +55,17 @@ export default function Map({ locations, admin, foodTruckData, isMobile }) {
   const mapRef = useRef();
 
   const { setCurrentMarker, currentMarker } = useContext(CurrentMarkerContext);
-
+  const { currentLocation, setCurrentLocation } = useContext(
+    CurrentLocationContext
+  );
   //
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
+  }, []);
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(15);
   }, []);
 
   // useEffect(() => {
@@ -73,46 +88,59 @@ export default function Map({ locations, admin, foodTruckData, isMobile }) {
   if (!isLoaded) return "Loading Maps";
 
   return (
-    <div className="map">
+    <div className="map" id="map">
       <GoogleMap
         mapContainerStyle={admin ? adminContainerStyle : mapContainerStyle}
         zoom={currentMarker ? 18 : 15}
         center={currentMarker ? currentMarker.geo : center}
         options={options}
         onLoad={onMapLoad}
+        loadingElement={<Spinner />}
       >
         {
           //changed the key = username instead of dateISOString might break clicking to set new PIN
           locations?.map((marker, i) => (
-            <Marker
-              key={i}
-              position={{ lat: marker.geo?.lat, lng: marker.geo?.lng }}
-              onClick={() => {
-                console.log(marker);
+            <>
+              <Marker
+                key={marker.id}
+                position={{ lat: marker.geo?.lat, lng: marker.geo?.lng }}
+                onClick={() => {
+                  console.log(marker);
+                  setSelected(marker);
 
-                if (isMobile) {
-                  document
-                    .getElementById(marker.truckName)
-                    .scrollIntoView({ behavior: "smooth" });
-                } else {
-                  document
-                    .getElementById("feature")
-                    .scrollIntoView({ behavior: "smooth" });
-                }
+                  if (isMobile) {
+                    document
+                      .getElementById(marker.truckName)
+                      .scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    document
+                      .getElementById("feature")
+                      .scrollIntoView({ behavior: "smooth" });
+                  }
 
-                setCurrentMarker(marker);
-              }}
-            />
+                  setCurrentMarker(marker);
+                }}
+              />
+            </>
           ))
         }
+
+        {currentLocation && (
+          <Marker
+            position={{
+              lat: currentLocation.latitude,
+              lng: currentLocation.longitude,
+            }}
+          />
+        )}
       </GoogleMap>
     </div>
   );
 }
 
-function Locate({ panTo }) {
+function Locate({ panTo, setCurrentLocation }) {
   return (
-    <button
+    <Button
       style={{ position: "absolute", zIndex: "10", margin: "2rem" }}
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
@@ -127,6 +155,6 @@ function Locate({ panTo }) {
       }}
     >
       Locate me!
-    </button>
+    </Button>
   );
 }

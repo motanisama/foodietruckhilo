@@ -8,7 +8,7 @@ export function TruckGrid() {
   const { locations } = useContext(LocationContext);
 
   return (
-    <SimpleGrid columns={[1, null, 3]} spacing={4}>
+    <SimpleGrid columns={[1, null, 3]} spacing={4} mb={20}>
       {locations?.map((data) => (
         <SocialProfileSimple data={data} key={data.truckName} />
       ))}

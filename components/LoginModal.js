@@ -14,6 +14,7 @@ import {
   Box,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import React, { useRef } from "react";
@@ -103,6 +104,12 @@ function LoginModal({ children }) {
                 {...register("email", {
                   required: "Required",
                 })}
+                css={{
+                  "&::placeholder": {
+                    color: "#A0AEC0",
+                    opacity: 1,
+                  },
+                }}
               />
             </FormControl>
 
@@ -114,6 +121,12 @@ function LoginModal({ children }) {
                 {...register("password", {
                   required: "Required",
                 })}
+                css={{
+                  "&::placeholder": {
+                    color: "#A0AEC0",
+                    opacity: 1,
+                  },
+                }}
               />
             </FormControl>
           </ModalBody>

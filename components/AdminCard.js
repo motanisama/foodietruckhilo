@@ -10,6 +10,7 @@ import {
   Badge,
   useColorModeValue,
   useToast,
+  AvatarBadge,
 } from "@chakra-ui/react";
 import { useAuth } from "../lib/auth";
 import { updateLocation } from "../lib/db";
@@ -61,7 +62,9 @@ export default function AdminCard({ user, updates, foodTruckData }) {
             bottom: 0,
             right: 3,
           }}
-        />
+        >
+          <AvatarBadge boxSize="1.25em" bg="green.500" />
+        </Avatar>
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           @{foodTruckData && foodTruckData[0].truckName}
         </Heading>

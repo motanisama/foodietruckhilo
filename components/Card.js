@@ -10,12 +10,13 @@ import {
   Badge,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { CurrentMarkerContext } from "../lib/context";
 
 export default function SocialProfileSimple({ data }) {
   const { currentMarker, setCurrentMarker } = useContext(CurrentMarkerContext);
-
+  const router = useRouter();
   const handleMap = () => {
     document.getElementById("map").scrollIntoView({ behavior: "smooth" });
     setCurrentMarker(data);
@@ -27,6 +28,10 @@ export default function SocialProfileSimple({ data }) {
     } else {
       return false;
     }
+  };
+
+  const handleInfo = () => {
+    router.push(`/foodtruck/${data?.id}`);
   };
 
   return (
@@ -48,24 +53,24 @@ export default function SocialProfileSimple({ data }) {
           alt={"Avatar Alt"}
           mb={4}
           pos={"relative"}
-          _after={{
-            content: '""',
-            w: 4,
-            h: 4,
-            bg: "green.300",
-            border: "2px solid white",
-            rounded: "full",
-            pos: "absolute",
-            bottom: 0,
-            right: 3,
-          }}
+          // _after={{
+          //   content: '""',
+          //   w: 4,
+          //   h: 4,
+          //   bg: "green.300",
+          //   border: "2px solid white",
+          //   rounded: "full",
+          //   pos: "absolute",
+          //   bottom: 0,
+          //   right: 3,
+          // }}
           id={data?.truckName}
         />
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {data?.truckName}
         </Heading>
         <Text size={"sm"} color="gray.400">
-          Last Update: 10:00 8/1/22 🤙
+          Last Update: 10:00 8/1/22
         </Text>
         <Text size={"sm"} color="gray.400"></Text>
         <Text
@@ -117,17 +122,17 @@ export default function SocialProfileSimple({ data }) {
             flex={1}
             fontSize={"sm"}
             rounded={"full"}
-            bg={"blue.400"}
+            bg={"red.400"}
             color={"white"}
-            boxShadow={
-              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-            }
             _hover={{
-              bg: "blue.500",
+              bg: "red.500",
+              boxShadow:
+                "0px 1px 25px -5px rgb(245 101 101 / 48%), 0 10px 10px -5px rgb(245 101 101 / 43%)",
             }}
             _focus={{
-              bg: "blue.500",
+              bg: "red.500",
             }}
+            onClick={handleInfo}
           >
             Info
           </Button>

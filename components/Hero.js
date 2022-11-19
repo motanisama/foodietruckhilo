@@ -13,10 +13,30 @@ import {
   IconProps,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import { CurrentLocationContext, CurrentMarkerContext } from "../lib/context";
+import { useCurrentLocation } from "../lib/hooks";
 
-export default function CallToActionWithVideo() {
+export default function Hero() {
+  const { currentLocation, setCurrentLocation } = useContext(
+    CurrentLocationContext
+  );
+  const { setCurrentMarker, currentMarker } = useContext(CurrentMarkerContext);
+
+  const handleFind = async () => {
+    document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log(position);
+      setCurrentLocation(position.coords);
+      setCurrentMarker({
+        geo: { lat: position.coords.latitude, lng: position.coords.longitude },
+      });
+      console.log(currentLocation);
+    });
+  };
+
   return (
-    <Container maxW={"7xl"}>
+    <Container maxW={"2000px"} minH={"90vh"}>
       <Stack
         align={"center"}
         spacing={{ base: 8, md: 10 }}
@@ -43,23 +63,25 @@ export default function CallToActionWithVideo() {
                 zIndex: -1,
               }}
             >
-              Write once,
+              Hungry?
             </Text>
             <br />
             <Text as={"span"} color={"red.400"}>
-              use everywhere!
+              let's go on a FoodieTrek
             </Text>
           </Heading>
-          <Text color={"gray.500"}>
-            Snippy is a rich coding snippets app that lets you create your own
-            code snippets, categorize them, and even sync them in the cloud so
-            you can use them anywhere. All that is free!
+          <Text color={"gray.500"} fontSize={"xl"}>
+            FoodieTrek beta currently promotes licensed and approved partnered
+            food trucks on the Big Island of Hawai'i. We help break down the
+            barriers of trying something new by providing daily updates to find
+            local moving food trucks. Come try something new!
           </Text>
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={{ base: "column", sm: "row" }}
           >
             <Button
+              onClick={handleFind}
               rounded={"full"}
               size={"lg"}
               fontWeight={"normal"}
@@ -68,25 +90,26 @@ export default function CallToActionWithVideo() {
               bg={"red.400"}
               _hover={{ bg: "red.500" }}
             >
-              Get started
+              Find Near me
             </Button>
-            <Button
-              rounded={"full"}
-              size={"lg"}
-              fontWeight={"normal"}
-              px={6}
-              leftIcon={<PlayIcon h={4} w={4} color={"gray.300"} />}
-            >
-              How It Works
+            <Button rounded={"full"} size={"lg"} fontWeight={"normal"} px={6}>
+              Partner
             </Button>
           </Stack>
         </Stack>
         <Flex
-          flex={1}
+          flex={3}
           justify={"center"}
           align={"center"}
           position={"relative"}
           w={"full"}
+          transition={"0.2s"}
+          transitionDuration
+          css={{
+            "&:hover": {
+              transform: "scale(1.05);",
+            },
+          }}
         >
           <Blob
             w={"150%"}
@@ -95,37 +118,24 @@ export default function CallToActionWithVideo() {
             top={"-20%"}
             left={0}
             zIndex={-1}
-            color={useColorModeValue("red.50", "red.400")}
+            color={useColorModeValue("red.400")}
           />
+
           <Box
             position={"relative"}
-            height={"300px"}
+            height={"700px"}
             rounded={"2xl"}
             boxShadow={"2xl"}
             width={"full"}
             overflow={"hidden"}
           >
-            <IconButton
-              aria-label={"Play Button"}
-              variant={"ghost"}
-              _hover={{ bg: "transparent" }}
-              icon={<PlayIcon w={12} h={12} />}
-              size={"lg"}
-              color={"white"}
-              position={"absolute"}
-              left={"50%"}
-              top={"50%"}
-              transform={"translateX(-50%) translateY(-50%)"}
-            />
             <Image
               alt={"Hero Image"}
               fit={"cover"}
               align={"center"}
               w={"100%"}
               h={"100%"}
-              src={
-                "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80"
-              }
+              src={"1.jpg"}
             />
           </Box>
         </Flex>

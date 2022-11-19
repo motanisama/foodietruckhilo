@@ -58,7 +58,7 @@ export default [
     elementType: "all",
     stylers: [
       {
-        visibility: "off",
+        visibility: "on",
       },
     ],
   },
