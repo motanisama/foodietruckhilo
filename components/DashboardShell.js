@@ -12,7 +12,6 @@ const DashboardShell = ({ children, full }) => {
     <Box h={full ? "full" : "100vh"}>
       <Flex
         backgroundColor="gray.100"
-        mb={[8, 16]}
         w="full"
         borderTop="5px solid #F56565
         "
@@ -26,7 +25,7 @@ const DashboardShell = ({ children, full }) => {
           margin="0 auto"
           w="full"
           px={8}
-          h="60px"
+          h="6vh"
         >
           <Flex align="center">
             {/* <NextLink href="/" passHref>
